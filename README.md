@@ -1,2 +1,0 @@
-# 4mation
-Gnerally description
