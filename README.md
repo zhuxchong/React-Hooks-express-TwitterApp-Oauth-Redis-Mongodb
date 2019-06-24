@@ -12,7 +12,9 @@ Back-end : Node,js , Redis and MongoDB.
 Because this is 48 hours rushed project maybe the whole system is not robust as normal one.. I just wanna finish the functionalities asap.
 
 notice:
-1. I used the redis to store the access_token and access_token_secrect, initially, I wanna use reddis as middleware cache... but my free account is base in usa... it is quite slow to connect.. and sometime the connection would be disconnected, I console.log the redis process in console,like pict below,.............. . After 'redis mid start' if you cannot get result for a long time, yeah, disconnected, just restart the server like pict below................
+1. I used the redis to store the access_token and access_token_secrect, initially, I wanna use reddis as middleware cache... but my free account is base in usa... it is quite slow to connect.. and sometime the connection would be disconnected, I console.log the redis process in console,like pict below,
+https://github.com/zhuxchong/4mation/raw/master/image/redisLoading.PNG
+. . After 'redis mid start' if you cannot get result for a long time, yeah, disconnected, just restart the server like pict below................
 
 2.I checked the API doc in Twitter, if I choosed OAUTH2.0 , I have no access to post a new tweet, so OAUTH1.0 is my choice.
 
