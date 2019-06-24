@@ -14,13 +14,19 @@ Because this is 48 hours rushed project maybe the whole system is not robust as 
 notice:
 1. I used the redis to store the access_token and access_token_secrect, initially, I wanna use reddis as middleware cache... but my free account is base in usa... it is quite slow to connect.. and sometime the connection would be disconnected, I console.log the redis process in console,like pict below,
 ![image](https://github.com/zhuxchong/4mation/raw/master/image/redisLoading.PNG)
-. . After 'redis mid start' if you cannot get result for a long time, yeah, disconnected, just restart the server like pict below................
+ After 'redis mid start' if you cannot get result for a long time, yeah, disconnected, just restart the server like pict below
+![image](https://github.com/zhuxchong/4mation/raw/master/image/reddisError.PNG)
 
 2.I checked the API doc in Twitter, if I choosed OAUTH2.0 , I have no access to post a new tweet, so OAUTH1.0 is my choice.
 
-3.Because I only have the standard API access in Twitter APP, so I only can use limited APIs, like Get tweet for a particular user. I used the API (https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html)  After reading the doc,I think that is the best way to get tweets by user(screen name), I did not find a free API can search tweet by username.But this one also has some issues,like pict....
+3.Because I only have the standard API access in Twitter APP, so I only can use limited APIs, like Get tweet for a particular user. I used the API (https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html)  After reading the doc,I think that is the best way to get tweets by user(screen name), I did not find a free API can search tweet by username.But this one also has some issues,like pict
+![image](https://github.com/zhuxchong/4mation/raw/master/image/getTweet.PNG)
 
-4.Search and like a tweet by keyword. I choiced the API(https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets)... It seems use q as a keywords to search the tweet, but wired thing is tweets searched by this API whose key favorited must be false, even I have already like it.Like pict below.................. So I add a new function named favorite list, when you click like for one tweet and you can find this tweet in favorite list, and also you can cancel like in that page.
+
+4.Search and like a tweet by keyword. I choiced the API(https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets)... It seems use q as a keywords to search the tweet, but wired thing is tweets searched by this API whose key favorited must be false, even I have already like it.Pict
+![image](https://github.com/zhuxchong/4mation/raw/master/image/Like.PNG)
+![image](https://github.com/zhuxchong/4mation/raw/master/image/likeIssue.PNG)
+So I add a new function named favorite list, when you click like for one tweet and you can find this tweet in favorite list, and also you can cancel like in that page.
 
 5..env I have sent to your email , don't forget to add it before launching.
 
