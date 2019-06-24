@@ -3,6 +3,7 @@ import { withRouter } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
+import Context from "../store/context";
 
 const useStyles = makeStyles(theme => ({
   progress: {
@@ -11,6 +12,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Loading = props => {
+  const context = React.useContext(Context);
   const classes = useStyles();
   const getToken = async (verifier, oauthToken) => {
     await axios
@@ -20,6 +22,8 @@ const Loading = props => {
       })
       .then(res => {
         localStorage.setItem("jwt", res.data.jwt);
+        localStorage.setItem("screen_name", res.data.screen_name);
+        context.changeComponent(res.data.screen_name);
         props.history.push("./home");
       })
       .catch(e => console.log(e));
@@ -30,7 +34,7 @@ const Loading = props => {
       .split("oauth_token=")[1]
       .split("&")[0];
     getToken(verifier, oauthToken);
-  });
+  }, []);
   return (
     <div>
       <CircularProgress className={classes.progress} color="secondary" />

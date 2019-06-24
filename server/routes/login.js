@@ -75,7 +75,6 @@ router.post("/login/get_token", (req, res, next) => {
           }
         }
       );
-      // req.redis.end(true);
 
       let token = jwt.sign(
         { user_id: parsedBody.user_id },
@@ -86,7 +85,8 @@ router.post("/login/get_token", (req, res, next) => {
       );
 
       res.send({
-        jwt: token
+        jwt: token,
+        screen_name: parsedBody.screen_name
       });
     }
   );

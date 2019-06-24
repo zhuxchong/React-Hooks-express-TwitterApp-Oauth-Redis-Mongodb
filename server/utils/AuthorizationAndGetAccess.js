@@ -10,6 +10,7 @@ const AuthorizationAndGetAccess = (req, res) => {
           res.status(401);
           res.send("error1   +++++" + err);
         }
+        if (!decoded) res.status(401);
         return decoded;
       }
     );
@@ -21,6 +22,7 @@ const AuthorizationAndGetAccess = (req, res) => {
         res.status(401);
         res.send("error1   +++++" + err);
       }
+      console.log(r);
       if (r) {
         console.log("redis end");
         resolve(r);

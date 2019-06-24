@@ -18,10 +18,11 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MainListItems from "./listItems";
-
+import MessageBoard from "./messageBoard";
 import TweetSearchTamplate from "./tweetSearchTamplate";
 import TweetPost from "./tweetPost";
 import FavoriteList from "./favoriteList";
+import { withRouter } from "react-router";
 
 const drawerWidth = 240;
 const reuireOptions = {
@@ -29,6 +30,12 @@ const reuireOptions = {
   TweetPost: "Post Tweet",
   TweetLikeAndSearch: "Search Tweet and Like",
   FavoriteList: "Favorite Tweet List"
+};
+const tableTitle = {
+  TweetGetByUser: ["User", "Screen Name", "Tweet"],
+  TweetPost: "Post Tweet",
+  TweetLikeAndSearch: ["User", "Screen Name", "Tweet", "Favorited"],
+  FavoriteList: ["User", "Screen Name", "Tweet", "Favorited"]
 };
 const useStyles = makeStyles(theme => ({
   root: {
@@ -103,6 +110,9 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     overflow: "auto",
     flexDirection: "column"
+  },
+  messageBorder: {
+    marginTop: 10
   }
 }));
 
@@ -116,6 +126,13 @@ export default function Homepage(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  React.useEffect(() => {
+    if (!localStorage.getItem("jwt")) {
+      props.history.push({
+        pathname: "/"
+      });
+    }
+  });
 
   return (
     <div className={classes.root}>
@@ -179,7 +196,11 @@ export default function Homepage(props) {
                 {
                   {
                     TweetGetByUser: (
-                      <TweetSearchTamplate type={"TweetGetByUser"} search />
+                      <TweetSearchTamplate
+                        type={"TweetGetByUser"}
+                        search
+                        tableTitle={tableTitle[optionSelect]}
+                      />
                     ),
                     TweetPost: <TweetPost />,
                     TweetLikeAndSearch: (
@@ -187,6 +208,7 @@ export default function Homepage(props) {
                         type={"TweetLikeAndSearch"}
                         favoriteIcon
                         search
+                        tableTitle={tableTitle[optionSelect]}
                       />
                     ),
                     FavoriteList: (
@@ -195,11 +217,18 @@ export default function Homepage(props) {
                         get
                         favoriteIcon
                         preSending
+                        tableTitle={tableTitle[optionSelect]}
                       />
                     )
                   }[optionSelect]
                 }
               </Paper>
+              {/**  <Paper
+                className={[classes.paper, classes.messageBorder].join(" ")}
+              >
+                <span>Discussion Board</span>
+                <MessageBoard />
+              </Paper>*/}
             </Grid>
           </Grid>
         </Container>

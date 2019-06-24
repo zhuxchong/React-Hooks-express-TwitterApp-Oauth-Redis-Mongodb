@@ -110,18 +110,34 @@ const useStyles2 = makeStyles(theme => ({
 export default function CustomPaginationActionsTable(props) {
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
+
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  React.useEffect(() => {}, [props.rows]);
   const { rows } = props;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   function handleChangePage(event, newPage) {
+    console.log(newPage);
+    if (props.message) {
+      props.changePage(newPage);
+    }
     setPage(newPage);
   }
 
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
+  }
+  function rowsPreProcess() {
+    if (props.message) {
+      return props.rows;
+    } else {
+      return props.rows.slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage
+      );
+    }
   }
 
   return (
@@ -130,49 +146,48 @@ export default function CustomPaginationActionsTable(props) {
         <Table className={classes.table}>
           <TableBody>
             <TableRow>
-              <TableCell component="th" scope="row">
-                {"User"}
-              </TableCell>
-              <TableCell align="right">{"Scree Name"}</TableCell>
-              <TableCell align="right">{"Tweet"}</TableCell>
-              {props.favoriteIcon && (
-                <TableCell align="right">{"Favorited"}</TableCell>
-              )}
+              {props.tableTitle.map((i, index) => {
+                return <TableCell key={index}>{i}</TableCell>;
+              })}
             </TableRow>
-            {console.log(props.rows)}
-            {props.rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
+
+            {rowsPreProcess().map((row, index) => (
+              <TableRow key={index}>
+                {props.tableKey.map((i, index) => {
+                  if (i === "content") {
+                    return (
+                      <TableCell
+                        key={index}
+                        dangerouslySetInnerHTML={{ __html: row[i] }}
+                      />
+                    );
+                  } else {
+                    return <TableCell key={index}>{row[i]}</TableCell>;
+                  }
+                })}
+
+                {row.hasOwnProperty("favorited") && (
+                  <TableCell align="right">
+                    {row.favorited ? (
+                      <Favorite
+                        onClick={() => {
+                          props.favoriteOpration(true, row.tweet_id, index);
+                        }}
+                      />
+                    ) : (
+                      <UnFavorite
+                        onClick={() => {
+                          props.favoriteOpration(false, row.tweet_id, index);
+                        }}
+                      />
+                    )}
                   </TableCell>
-                  <TableCell align="right">{row["Scree Name"]}</TableCell>
-                  <TableCell align="right">{row.text}</TableCell>
-                  {row.hasOwnProperty("favorited") && (
-                    <TableCell align="right">
-                      {row.favorited ? (
-                        <Favorite
-                          onClick={() => {
-                            console.log(row.tweet_id);
-                            props.favoriteOpration(row.tweet_id, true);
-                          }}
-                        />
-                      ) : (
-                        <UnFavorite
-                          onClick={() => {
-                            props.favoriteOpration(row.tweet_id, false);
-                            console.log(row.tweet_id);
-                          }}
-                        />
-                      )}
-                    </TableCell>
-                  )}
-                </TableRow>
-              ))}
+                )}
+              </TableRow>
+            ))}
 
             {emptyRows > 0 && (
-              <TableRow style={{ height: 48 * emptyRows }}>
+              <TableRow>
                 <TableCell colSpan={6} />
               </TableRow>
             )}
@@ -182,7 +197,7 @@ export default function CustomPaginationActionsTable(props) {
               <TablePagination
                 rowsPerPageOptions={[5]}
                 colSpan={3}
-                count={rows.length}
+                count={props.message ? props.count : rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{

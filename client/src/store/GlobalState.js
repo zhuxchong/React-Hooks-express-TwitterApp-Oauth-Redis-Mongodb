@@ -2,17 +2,17 @@ import React, { Component } from "react";
 import Context from "./context";
 class GlobalState extends Component {
   state = {
-    componentDisplay: "tweetGet"
+    screenName: undefined
   };
   changeComponent = string => {
-    this.setState({ componentDisplay: string });
+    this.setState({ screenName: string });
   };
 
   render() {
     return (
       <Context.Provider
         value={{
-          state: this.state.state,
+          screenName: this.state.screenName,
           changeComponent: this.changeComponent
         }}
       >

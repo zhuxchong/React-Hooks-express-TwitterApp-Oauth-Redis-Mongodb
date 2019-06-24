@@ -2,10 +2,11 @@ import React from "react";
 import TableView from "../containers/tableView";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
+import SnackBar from "../containers/snackbar";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
+import { withRouter } from "react-router";
 
 const useStyles = makeStyles(theme => ({
   textContainer: {
@@ -42,7 +43,10 @@ const TweetSearchTamplate = props => {
   const classes = useStyles();
   const inputEl = React.useRef(null);
   const [res, setRes] = React.useState([]);
-
+  const [snackBar, setSnackBar] = React.useState({ res: false, open: false });
+  const closeSnackBar = () => {
+    setSnackBar({ res: snackBar.res, open: false });
+  };
   const serach = (type, getMethod) => {
     setRes(undefined);
 
@@ -61,18 +65,37 @@ const TweetSearchTamplate = props => {
         .post(url, { serachInput: inputEl.current.value }, { headers })
         .then(res => setRes(res.data))
         .catch(e => {
-          setRes([]);
+          if (e.message === "Request failed with status code 401") {
+            props.history.push({
+              pathname: "/"
+            });
+          }
+          console.error(e);
+          //setRes([]);
         });
     }
   };
-  const favoriteOpration = (bool, id) => {
+  const favoriteOpration = (bool, id, index) => {
     setRes(undefined);
     const url = `tweet/tweet_favorite`;
+
     axios
       .post(url, { id: id, nowStatus: bool }, { headers })
-      .then(res => setRes(res.data))
+      .then(result => {
+        if (!bool) {
+          let temp = [...res];
+          setSnackBar({ res: true, open: true });
+          setRes(temp);
+        } else {
+          let temp = [...res];
+          temp.splice(index, 1);
+          setSnackBar({ res: true, open: true });
+          setRes(temp);
+        }
+      })
       .catch(e => {
-        setRes([]);
+        setSnackBar({ res: false, open: true });
+        setRes([...res]);
       });
   };
   React.useEffect(() => {
@@ -88,31 +111,37 @@ const TweetSearchTamplate = props => {
         setRes([]);
       });
   };
-
+  //getKeys=(res)=>{Object.keys(res)}
   return (
     <React.Fragment>
       <div className={classes.textContainer}>
-        <TextField
-          id="standard-with-placeholder"
-          label="Input"
-          className={classes.textField}
-          margin="normal"
-          inputRef={inputEl}
-        />
-        <Button
-          onClick={() => {
-            serach(props.type, props.get);
-          }}
-          variant="contained"
-          color="primary"
-          className={classes.button}
-        >
-          Search
-        </Button>
+        {props.search && (
+          <>
+            <TextField
+              id="standard-with-placeholder"
+              label="Input"
+              className={classes.textField}
+              margin="normal"
+              inputRef={inputEl}
+            />
+            <Button
+              onClick={() => {
+                serach(props.type, props.get);
+              }}
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              Search
+            </Button>
+          </>
+        )}
       </div>
       <div style={{ padding: "10px 30px" }}>
         {res ? (
           <TableView
+            tableTitle={props.tableTitle}
+            tableKey={res.length > 0 ? Object.keys(res[0]) : []}
             favoriteIcon={props.favoriteIcon}
             rows={res}
             favoriteOpration={favoriteOpration}
@@ -121,7 +150,12 @@ const TweetSearchTamplate = props => {
           <CircularProgress />
         )}
       </div>
+      <SnackBar
+        success={snackBar.res}
+        open={snackBar.open}
+        closeSnackBar={closeSnackBar}
+      />
     </React.Fragment>
   );
 };
-export default TweetSearchTamplate;
+export default withRouter(TweetSearchTamplate);

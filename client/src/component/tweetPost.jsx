@@ -4,14 +4,15 @@ import axios from "axios";
 import Button from "@material-ui/core/Button";
 import SnackBar from "../containers/snackbar";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-const TweetPost = () => {
+import { withRouter } from "react-router";
+const TweetPost = props => {
   const [content, setContent] = React.useState("");
   const [sending, setSending] = React.useState(false);
-  const [result, setResult] = React.useState(false);
-  const [snackBar, setSnackBar] = React.useState(false);
+
+  const [snackBar, setSnackBar] = React.useState({ res: false, open: false });
+
   const closeSnackBar = () => {
-    setSnackBar(false);
+    setSnackBar({ res: snackBar.res, open: false });
   };
   const handleEditorChange = e => {
     setContent(e.target.value);
@@ -21,19 +22,24 @@ const TweetPost = () => {
     const headers = {
       authorization: localStorage.getItem("jwt")
     };
-    console.log(headers);
+
     axios
       .post("tweet/tweet_post_new", { content: content }, { headers })
       .then(res => {
         setSending(false);
-        setResult(true);
-        setSnackBar(true);
+
+        setSnackBar({ res: true, open: true });
       })
       .catch(e => {
+        if (e.message === "Request failed with status code 401") {
+          props.history.push({
+            pathname: "/"
+          });
+        }
         console.log(e);
         setSending(false);
-        setResult(false);
-        setSnackBar(true);
+
+        setSnackBar({ res: false, open: true });
       });
   };
 
@@ -62,11 +68,11 @@ const TweetPost = () => {
         Post
       </Button>
       <SnackBar
-        success={result}
-        open={snackBar}
+        success={snackBar.res}
+        open={snackBar.open}
         closeSnackBar={closeSnackBar}
       />
     </React.Fragment>
   );
 };
-export default TweetPost;
+export default withRouter(TweetPost);

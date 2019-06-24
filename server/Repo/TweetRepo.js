@@ -18,7 +18,6 @@ const getFavoriteList = accessObj => {
 };
 function getOperation(accessObj, url, notFavorite, favoritedList) {
   return new Promise((resolve, reject) => {
-    console.log("getin searching getFavoriteList");
     request.get(
       {
         url: url,
@@ -76,8 +75,7 @@ const postTweet = (accessObj, tweet) => {
   const url = `https://api.twitter.com/1.1/statuses/update.json?status=${tweet}`;
   return simpleReturn(accessObj, url);
 };
-const changeFavorite = (accessObj, status, id) => {
-  console.log(accessObj + " + " + id + " + " + status);
+const changeFavorite = (accessObj, id, status) => {
   const url = status
     ? `https://api.twitter.com/1.1/favorites/destroy.json?id=${id}`
     : `https://api.twitter.com/1.1/favorites/create.json?id=${id}`;

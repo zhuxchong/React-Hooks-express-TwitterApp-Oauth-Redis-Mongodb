@@ -14,6 +14,10 @@ app.use("/", (req, res, next) => {
 });
 app.use("/auth", require("./routes/login"));
 app.use("/tweet", require("./routes/tweet"));
+app.use("/message", require("./routes/disscussionBoard"));
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, console.log(`server started at ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`server started at ${PORT}`);
+  require("./utils/MongoConnect");
+});
