@@ -223,12 +223,12 @@ export default function Homepage(props) {
                   }[optionSelect]
                 }
               </Paper>
-              {/**  <Paper
+              <Paper
                 className={[classes.paper, classes.messageBorder].join(" ")}
               >
                 <span>Discussion Board</span>
                 <MessageBoard />
-              </Paper>*/}
+              </Paper>
             </Grid>
           </Grid>
         </Container>
