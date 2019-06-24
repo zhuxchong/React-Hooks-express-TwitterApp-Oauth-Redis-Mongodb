@@ -47,7 +47,7 @@ So I add a new function named favorite list, when you click like for one tweet a
 2. First challenge is Oauth1.0 ... twitter doesn't recomm developer to use Oauth1.0 whose technology is JS.. but I resovled this challenge.
 Next one is DOCs in twitter I think it is not quite clear as the DOCs in Github, I spent much time for selecting a correct API.
 Need more time
-Learning GraphQL.
+Learning GraphQL and Apollo
 
 3.A lot.
 front-end: 
@@ -64,7 +64,7 @@ modify the code and follow the restful principal.
 remove reundant code and make pattern reusable
 Add logic checking and make system robust.
 
-4. Make the system strong and waiting for your reply.
+4. Make the system strong and waiting for your reply.Learning GraphQL and Apollo
 
 5.Around 2 days, I spent most time in Oauth1.0 and API reading/testing 
 
