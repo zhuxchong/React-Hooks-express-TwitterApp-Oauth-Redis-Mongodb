@@ -54,7 +54,7 @@ front-end:
 Unit test or TDD patter(hope..)
 performance issus, because I used the Hooks for whole project, using the useEffect to replace shouldComUpdate, but I am not the master for this new feature, maybe some re-render is not necessary. 
 Tomorrow I will add lazy loading to this project.
-CSS issue, as you see I use the material UI for this project, it helps me rapidly build the layout of this structure, but the view ..is not quite good
+As you see I use the material UI for this project, it helps me rapidly build the layout of this structure, but the view ..is not quite good, I need a lot of time to do CSS work
 I need to make the page reponsive later using @media, Grid system or Flexbox
 remove reundant code and make pattern reusable
 
