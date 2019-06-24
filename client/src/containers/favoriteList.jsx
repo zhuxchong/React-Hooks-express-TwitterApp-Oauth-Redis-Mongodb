@@ -1,5 +1,5 @@
 import React from "react";
-import TableView from "../containers/tableView";
+import TableView from "../components/tableView";
 import axios from "axios";
 
 const FavoriteList = props => {

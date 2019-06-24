@@ -1,8 +1,8 @@
 import React from "react";
-import { Editor } from "@tinymce/tinymce-react";
+
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import SnackBar from "../containers/snackbar";
+import SnackBar from "../components/snackbar";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { withRouter } from "react-router";
 const TweetPost = props => {
@@ -45,16 +45,6 @@ const TweetPost = props => {
 
   return (
     <React.Fragment>
-      {/*<Editor
-        apiKey=""
-        initialValue="This is the initial content of the editor"
-        init={{
-          plugins: "link image code",
-          toolbar:
-            "undo redo | bold italic | alignleft aligncenter alignright | code"
-        }}
-        onChange={handleEditorChange}
-      />*/}
       {sending ? (
         <CircularProgress style={{ height: 80, margin: "3%" }} />
       ) : (

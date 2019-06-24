@@ -2,9 +2,7 @@ import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import TableView from "../containers/tableView";
-import SnackBar from "../containers/snackbar";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import TableView from "../components/tableView";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router";
@@ -124,6 +122,7 @@ const TweetPost = props => {
         }}
         onChange={handleEditorChange}
       />
+
       <Button
         variant="contained"
         color="primary"
@@ -136,7 +135,7 @@ const TweetPost = props => {
         <>
           <TableView
             message
-            count={rows.count.count}
+            count={parseInt(rows.count.count)}
             rows={loading ? [] : rows.rows}
             changePage={changePage}
             tableTitle={["User", "Subject", "Message", "Date"]}

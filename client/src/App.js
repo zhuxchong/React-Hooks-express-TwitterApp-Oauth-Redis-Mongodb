@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Login from "./component/login";
-import Loading from "./component/authLoginLoading";
-import Homepage from "./component/homepage";
+import Login from "./containers/login";
+import Loading from "./containers/authLoginLoading";
+import Homepage from "./containers/homepage";
 import GlobalStaet from "./store/GlobalState";
 
 class App extends Component {
