@@ -10,7 +10,7 @@ class Login extends Component {
   }
 
   requestToken = () => {
-    axios.get("auth/twitter/request_token").then(r => {
+    axios.get("auth/login/request_token").then(r => {
       window.location.href = `https://api.twitter.com/oauth/authorize?oauth_token=${
         r.data.oauth_token
       }`;

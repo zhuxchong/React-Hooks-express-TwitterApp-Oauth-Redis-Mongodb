@@ -3,6 +3,7 @@ import { withRouter } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
+
 const useStyles = makeStyles(theme => ({
   progress: {
     margin: theme.spacing(2)
@@ -13,13 +14,15 @@ const Loading = props => {
   const classes = useStyles();
   const getToken = async (verifier, oauthToken) => {
     await axios
-      .post("auth/twitter/get_token", {
+      .post("auth/login/get_token", {
         verifier: verifier,
         oauthToken: oauthToken
       })
       .then(res => {
-        console.log(res);
-      });
+        localStorage.setItem("jwt", res.data.jwt);
+        props.history.push("./home");
+      })
+      .catch(e => console.log(e));
   };
   React.useEffect(() => {
     let verifier = props.location.search.split("oauth_verifier=")[1];
