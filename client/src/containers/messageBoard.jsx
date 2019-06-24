@@ -6,6 +6,7 @@ import TableView from "../components/tableView";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router";
+import SnackBar from "../components/snackbar";
 
 import Context from "../store/context";
 const headers = {
@@ -25,10 +26,14 @@ const TweetPost = props => {
   const context = React.useContext(Context);
   const [loading, setLoading] = React.useState(true);
   const [rows, setRows] = React.useState({ rows: [], count: 0 });
-
+  const [snackBar, setSnackBar] = React.useState({ res: false, open: false });
   const [refresh, setRefresh] = React.useState(false);
   const [mainBody, serMainbody] = React.useState("");
+
   const subjectRef = React.useRef(null);
+  const closeSnackBar = () => {
+    setSnackBar({ res: snackBar.res, open: false });
+  };
   const submit = () => {
     axios
       .post(
@@ -38,14 +43,19 @@ const TweetPost = props => {
           subject: subjectRef.current.value,
           content: mainBody
         },
-        { headers }
+        {
+          headers: {
+            authorization: localStorage.getItem("jwt")
+          }
+        }
       )
       .then(res => {
-        console.log(res);
+        setSnackBar({ res: true, open: true });
         setRefresh(!refresh);
       })
       .catch(e => {
         console.log(e);
+        setSnackBar({ res: false, open: true });
         if (e.message === "Request failed with status code 401") {
           props.history.push({
             pathname: "/"
@@ -58,7 +68,15 @@ const TweetPost = props => {
   };
   React.useEffect(() => {
     axios
-      .post("message/get_message", { limit: 5, skip: 0 }, { headers })
+      .post(
+        "message/get_message",
+        { limit: 5, skip: 0 },
+        {
+          headers: {
+            authorization: localStorage.getItem("jwt")
+          }
+        }
+      )
       .then(res => {
         console.log(res);
         setRows({ rows: res.data.result, count: res.data.count });
@@ -75,7 +93,15 @@ const TweetPost = props => {
   const changePage = n => {
     setLoading(true);
     axios
-      .post("message/get_message", { limit: 5, skip: n * 5 }, { headers })
+      .post(
+        "message/get_message",
+        { limit: 5, skip: n * 5 },
+        {
+          headers: {
+            authorization: localStorage.getItem("jwt")
+          }
+        }
+      )
       .then(res => {
         setRows({ rows: res.data.result, count: res.data.count });
         setLoading(false);
@@ -142,6 +168,11 @@ const TweetPost = props => {
           />
         </>
       }
+      <SnackBar
+        success={snackBar.res}
+        open={snackBar.open}
+        closeSnackBar={closeSnackBar}
+      />
     </React.Fragment>
   );
 };

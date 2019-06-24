@@ -22,6 +22,7 @@ const Loading = props => {
       })
       .then(res => {
         localStorage.setItem("jwt", res.data.jwt);
+
         localStorage.setItem("screen_name", res.data.screen_name);
         context.changeComponent(res.data.screen_name);
         props.history.push("./home");

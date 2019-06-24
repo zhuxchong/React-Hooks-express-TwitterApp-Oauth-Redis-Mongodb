@@ -24,7 +24,15 @@ const TweetPost = props => {
     };
 
     axios
-      .post("tweet/tweet_post_new", { content: content }, { headers })
+      .post(
+        "tweet/tweet_post_new",
+        { content: content },
+        {
+          headers: {
+            authorization: localStorage.getItem("jwt")
+          }
+        }
+      )
       .then(res => {
         setSending(false);
 

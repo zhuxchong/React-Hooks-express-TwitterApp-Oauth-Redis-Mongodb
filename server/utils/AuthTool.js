@@ -16,6 +16,7 @@ const authTool = (req, res, next) => {
         res.send("error1   +++++" + err);
         return;
       }
+
       if (!decoded) res.status(401);
       return decoded;
     }

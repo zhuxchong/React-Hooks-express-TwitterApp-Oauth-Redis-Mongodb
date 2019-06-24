@@ -53,7 +53,11 @@ const TweetSearchTamplate = props => {
     const url = urlDict[type];
     if (getMethod) {
       axios
-        .get(url, { headers })
+        .get(url, {
+          headers: {
+            authorization: localStorage.getItem("jwt")
+          }
+        })
         .then(res => {
           console.log(res);
         })
@@ -67,7 +71,15 @@ const TweetSearchTamplate = props => {
         });
     } else {
       axios
-        .post(url, { serachInput: inputEl.current.value }, { headers })
+        .post(
+          url,
+          { serachInput: inputEl.current.value },
+          {
+            headers: {
+              authorization: localStorage.getItem("jwt")
+            }
+          }
+        )
         .then(res => setRes(res.data))
         .catch(e => {
           if (e.message === "Request failed with status code 401") {
@@ -85,7 +97,15 @@ const TweetSearchTamplate = props => {
     const url = `tweet/tweet_favorite`;
 
     axios
-      .post(url, { id: id, nowStatus: bool }, { headers })
+      .post(
+        url,
+        { id: id, nowStatus: bool },
+        {
+          headers: {
+            authorization: localStorage.getItem("jwt")
+          }
+        }
+      )
       .then(result => {
         if (!bool) {
           let temp = [...res];
@@ -110,7 +130,11 @@ const TweetSearchTamplate = props => {
   const didMountSend = () => {
     setRes(undefined);
     axios
-      .get(urlDict[props.type], { headers })
+      .get(urlDict[props.type], {
+        headers: {
+          authorization: localStorage.getItem("jwt")
+        }
+      })
       .then(res => setRes(res.data))
       .catch(e => {
         setRes([]);
