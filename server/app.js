@@ -1,20 +1,17 @@
 const express = require("express");
 const app = express();
-const Radis = require("./utils/RedisConnect");
-
+const radisStore = require("./utils/RedisConnect");
+const authTool = require("./utils/AuthTool");
 app.use(express.json());
 
 var cors = require("cors");
 
 app.use(cors());
-app.use("/", (req, res, next) => {
-  const client = Radis();
-  req.redis = client;
-  next();
-});
-app.use("/auth", require("./routes/login"));
-app.use("/tweet", require("./routes/tweet"));
-app.use("/message", require("./routes/disscussionBoard"));
+
+app.use("/auth", radisStore, require("./routes/login"));
+app.use("/tweet", authTool, require("./routes/tweet"));
+app.use("/message", authTool, require("./routes/messageBoard"));
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

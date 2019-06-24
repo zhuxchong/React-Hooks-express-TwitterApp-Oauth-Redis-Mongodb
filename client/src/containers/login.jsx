@@ -17,7 +17,14 @@ class Login extends Component {
     });
   };
   render() {
-    return <button onClick={this.requestToken}>Twitter Login</button>;
+    return (
+      <button
+        onClick={this.requestToken}
+        style={{ margin: "25px 25%", width: "50%", height: 50 }}
+      >
+        Twitter Login
+      </button>
+    );
   }
 }
 

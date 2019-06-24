@@ -65,7 +65,6 @@ const TweetPost = props => {
         setLoading(false);
       })
       .catch(e => {
-        console.error(e);
         if (e.message === "Request failed with status code 401") {
           props.history.push({
             pathname: "/"
@@ -116,7 +115,7 @@ const TweetPost = props => {
         apiKey="yf68j2xgn9bld4wmbxc81xm9ip1soe08jv4ta26o9qdr52qe"
         initialValue=""
         init={{
-          plugins: "link image code",
+          plugins: "link code",
           toolbar:
             "undo redo | bold italic | alignleft aligncenter alignright | code"
         }}

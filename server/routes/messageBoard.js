@@ -4,12 +4,12 @@ const cors = require("cors");
 const request = require("request");
 const Message = require("../Model/Message");
 const moment = require("moment");
-const AuthorizationAndGetAccess = require("../utils/AuthorizationAndGetAccess");
+
 require("dotenv").config();
 router.use(cors());
 
 router.post("/add_new_message", async (req, res) => {
-  const result = AuthorizationAndGetAccess(req, res);
+  const result = req.access;
   result
     .then(authRes => {
       const messageData = {
@@ -20,15 +20,14 @@ router.post("/add_new_message", async (req, res) => {
       };
       Message.create(messageData)
         .then(result => res.send("200 OK"))
-        .catch(e => console.error(e));
+        .catch(e => res.sendStatus(e));
     })
     .catch(e => {
-      res.status(401);
-      res.send("error1   +++++" + e);
+      res.sendStatus(e);
     });
 });
 router.post("/get_message", async (req, res) => {
-  const result = AuthorizationAndGetAccess(req, res);
+  const result = req.access;
   result
     .then(authRes => {
       Message.aggregate([
@@ -62,13 +61,12 @@ router.post("/get_message", async (req, res) => {
             count: arr[0].totalCount[0]
           });
         })
-        .catch(r => {
-          console.error(e);
+        .catch(e => {
+          res.sendStatus(e);
         });
     })
     .catch(e => {
-      res.status(401);
-      res.send("error1   +++++" + e);
+      res.sendStatus(e);
     });
 });
 

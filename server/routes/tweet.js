@@ -10,12 +10,11 @@ const {
   getFavoriteList
 } = require("../Repo/TweetRepo");
 
-const AuthorizationAndGetAccess = require("../utils/AuthorizationAndGetAccess");
 require("dotenv").config();
 router.use(cors());
 
 router.post("/tweet_by_user", async (req, res) => {
-  const result = AuthorizationAndGetAccess(req, res);
+  const result = req.access;
   result
     .then(temp => {
       getAllUserTweet(JSON.parse(temp), req.body.serachInput)
@@ -23,17 +22,17 @@ router.post("/tweet_by_user", async (req, res) => {
           res.send(temp);
         })
         .catch(e => {
-          res.status(401);
+          res.sendStatus(e);
           res.send("error1   +++++" + e);
         });
     })
     .catch(e => {
-      res.status(401);
+      res.sendStatus(e);
       res.send("error1   +++++" + e);
     });
 });
 router.post("/tweet_post_new", async (req, res) => {
-  const result = AuthorizationAndGetAccess(req, res);
+  const result = req.access;
   result
     .then(temp => {
       postTweet(JSON.parse(temp), req.body.content)
@@ -42,18 +41,18 @@ router.post("/tweet_post_new", async (req, res) => {
           res.send("OK");
         })
         .catch(e => {
-          res.status(501);
+          res.sendStatus(e);
           res.send("error1   +++++" + e);
         });
     })
     .catch(e => {
-      res.status(401);
+      res.sendStatus(e);
       res.send("error1   +++++" + e);
     });
 });
 router.post("/tweet_by_keyword", async (req, res) => {
   console.log("/tweet_by_keyword");
-  const result = AuthorizationAndGetAccess(req, res);
+  const result = req.access;
   result
     .then(temp => {
       getTweetByKeyword(JSON.parse(temp), req.body.serachInput)
@@ -62,18 +61,18 @@ router.post("/tweet_by_keyword", async (req, res) => {
         })
         .catch(e => {
           console.log("e cathch inside");
-          res.status(501);
+          res.sendStatus(e);
           res.send("error1   +++++" + e);
         });
     })
     .catch(e => {
       console.log("e cathch outside");
-      res.status(401);
+      res.sendStatus(e);
       res.send("error1   +++++" + e);
     });
 });
 router.post("/tweet_favorite", async (req, res) => {
-  const result = AuthorizationAndGetAccess(req, res);
+  const result = req.access;
   console.log(req.body.id);
   result
     .then(temp => {
@@ -83,19 +82,19 @@ router.post("/tweet_favorite", async (req, res) => {
         })
         .catch(e => {
           console.log("e cathch inside");
-          res.status(501);
+          res.sendStatus(e);
           res.send("error1   +++++" + e);
         });
     })
     .catch(e => {
       console.log("e cathch outside");
-      res.status(401);
+      res.sendStatus(e);
       res.send("error1   +++++" + e);
     });
 });
 router.get("/tweet_favorite_list", async (req, res) => {
   console.log("/tweet_favorite");
-  const result = AuthorizationAndGetAccess(req, res);
+  const result = req.access;
   result
     .then(temp => {
       getFavoriteList(JSON.parse(temp))
@@ -104,13 +103,13 @@ router.get("/tweet_favorite_list", async (req, res) => {
         })
         .catch(e => {
           console.log("e cathch inside");
-          res.status(501);
+          res.sendStatus(e);
           res.send("error1   +++++" + e);
         });
     })
     .catch(e => {
       console.log("e cathch outside");
-      res.status(401);
+      res.sendStatus(e);
       res.send("error1   +++++" + e);
     });
 });
