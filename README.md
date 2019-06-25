@@ -1,7 +1,7 @@
 How to run
 client: npm run start or start before build
 
-server:npm run build:dev
+server:npm run build:dev and then
 npm run dev
 
 
