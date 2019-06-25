@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
-const request = require("request");
+
 const {
   getAllUserTweet,
   postTweet,
@@ -36,7 +36,7 @@ router.post("/tweet_post_new", async (req, res) => {
   result
     .then(temp => {
       postTweet(JSON.parse(temp), req.body.content)
-        .then(temp => {
+        .then(() => {
           res.status(200);
           res.send("OK");
         })

@@ -20,4 +20,5 @@ const MessageSchema = new Scheme({
   }
 });
 
-module.exports = Message = mongoose.model("4mationDiscussboard", MessageSchema);
+const Message = mongoose.model("4mationDiscussboard", MessageSchema);
+module.exports = Message;

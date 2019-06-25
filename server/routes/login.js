@@ -19,7 +19,7 @@ router.get("/login/request_token", (req, res) => {
     },
     function(err, r, body) {
       if (err) {
-        return res.send(500, { message: e.message });
+        return res.send(500, { message: err.message });
       }
 
       var jsonStr =
@@ -29,7 +29,7 @@ router.get("/login/request_token", (req, res) => {
   );
 });
 
-router.post("/login/get_token", (req, res, next) => {
+router.post("/login/get_token", (req, res) => {
   request.post(
     {
       url: `https://api.twitter.com/oauth/access_token`,
@@ -60,22 +60,18 @@ router.post("/login/get_token", (req, res, next) => {
           access_token: parsedBody.oauth_token,
           access_secret: parsedBody.oauth_token_secret
         }),
-        (err, data) => {
+        err => {
           if (err) {
             console.error("err: ", err);
           }
         }
       );
 
-      req.redis.expire(
-        parsedBody.user_id,
-        process.env.AUTH_TIME,
-        (err, data) => {
-          if (err) {
-            console.error("err: ", err);
-          }
+      req.redis.expire(parsedBody.user_id, process.env.AUTH_TIME, err => {
+        if (err) {
+          console.error("err: ", err);
         }
-      );
+      });
 
       let token = jwt.sign(
         { user_id: parsedBody.user_id },

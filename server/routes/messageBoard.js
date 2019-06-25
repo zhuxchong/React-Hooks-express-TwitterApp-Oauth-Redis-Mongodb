@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
-const request = require("request");
 const Message = require("../Model/Message");
 const moment = require("moment");
 
@@ -11,7 +10,7 @@ router.use(cors());
 router.post("/add_new_message", async (req, res) => {
   const result = req.access;
   result
-    .then(authRes => {
+    .then(() => {
       const messageData = {
         user: req.body.user,
         topic: req.body.subject,
@@ -19,7 +18,7 @@ router.post("/add_new_message", async (req, res) => {
         date: new Date()
       };
       Message.create(messageData)
-        .then(result => res.send("200 OK"))
+        .then(() => res.send("200 OK"))
         .catch(e => res.sendStatus(e));
     })
     .catch(e => {
@@ -29,7 +28,7 @@ router.post("/add_new_message", async (req, res) => {
 router.post("/get_message", async (req, res) => {
   const result = req.access;
   result
-    .then(authRes => {
+    .then(() => {
       Message.aggregate([
         {
           $facet: {
@@ -51,7 +50,7 @@ router.post("/get_message", async (req, res) => {
         }
       ])
         .then(arr => {
-          temp = arr[0].getData;
+          let temp = arr[0].getData;
           temp.map(i => {
             i.date = moment(i.date).format("MMMM Do YYYY, h:mm:ss a");
           });
