@@ -1,3 +1,10 @@
+How to run
+client: npm run start or start before build
+
+server:npm run build:dev
+npm run dev
+
+
 # 4mation
 Description:
 This project finished the basic functionality of 
