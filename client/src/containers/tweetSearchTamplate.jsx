@@ -73,14 +73,17 @@ const TweetSearchTamplate = props => {
       axios
         .post(
           url,
-          { serachInput: inputEl.current.value },
+          { content: inputEl.current.value },
           {
             headers: {
               authorization: localStorage.getItem("jwt")
             }
           }
         )
-        .then(res => setRes(res.data))
+        .then(res => {
+          setRes(res.data);
+          console.log(res);
+        })
         .catch(e => {
           if (e.message === "Request failed with status code 401") {
             props.history.push({

@@ -262,6 +262,8 @@ var authTool = __webpack_require__(/*! ./utils/AuthTool */ "./utils/AuthTool.js"
 
 var morgan = __webpack_require__(/*! morgan */ "morgan");
 
+var createError = __webpack_require__(/*! http-errors */ "http-errors");
+
 app.use(express.json());
 
 var cors = __webpack_require__(/*! cors */ "cors");
@@ -278,6 +280,18 @@ app.use(cors());
 app.use("/auth", radisStore, __webpack_require__(/*! ./routes/login */ "./routes/login.js"));
 app.use("/tweet", authTool, __webpack_require__(/*! ./routes/tweet */ "./routes/tweet.js"));
 app.use("/message", authTool, __webpack_require__(/*! ./routes/messageBoard */ "./routes/messageBoard.js"));
+app.use(function (next) {
+  next(createError(404));
+}); // error handler
+
+app.use(function (err, req, res) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {}; // render the error page
+
+  res.status(err.status || 500);
+  res.render("error");
+});
 var PORT = process.env.PORT || 5000;
 app.listen(PORT, function () {
   console.log("server started at ".concat(PORT));
@@ -937,6 +951,17 @@ module.exports = require("express");
 /***/ (function(module, exports) {
 
 module.exports = require("express-winston");
+
+/***/ }),
+
+/***/ "http-errors":
+/*!******************************!*\
+  !*** external "http-errors" ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("http-errors");
 
 /***/ }),
 
