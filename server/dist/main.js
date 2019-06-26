@@ -260,9 +260,19 @@ var radisStore = __webpack_require__(/*! ./utils/RedisConnect */ "./utils/RedisC
 
 var authTool = __webpack_require__(/*! ./utils/AuthTool */ "./utils/AuthTool.js");
 
+var morgan = __webpack_require__(/*! morgan */ "morgan");
+
 app.use(express.json());
 
 var cors = __webpack_require__(/*! cors */ "cors");
+
+if ("development".trim() === "development") {
+  app.use(__webpack_require__(/*! ./utils/logglyMiddleware.dev */ "./utils/logglyMiddleware.dev.js"));
+}
+
+if ("development".trim() === "development") {
+  app.use(morgan("common"));
+}
 
 app.use(cors());
 app.use("/auth", radisStore, __webpack_require__(/*! ./routes/login */ "./routes/login.js"));
@@ -831,6 +841,26 @@ module.exports = redisStore;
 
 /***/ }),
 
+/***/ "./utils/logglyMiddleware.dev.js":
+/*!***************************************!*\
+  !*** ./utils/logglyMiddleware.dev.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var expressWinston = __webpack_require__(/*! express-winston */ "express-winston");
+
+var winston = __webpack_require__(/*! winston */ "winston");
+
+__webpack_require__(/*! winston-loggly-bulk */ "winston-loggly-bulk");
+
+var errorLogger = expressWinston.errorLogger({
+  transports: [new winston.transports.Console()]
+});
+module.exports = errorLogger;
+
+/***/ }),
+
 /***/ 0:
 /*!**************************************!*\
   !*** multi @babel/polyfill ./app.js ***!
@@ -899,6 +929,17 @@ module.exports = require("express");
 
 /***/ }),
 
+/***/ "express-winston":
+/*!**********************************!*\
+  !*** external "express-winston" ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("express-winston");
+
+/***/ }),
+
 /***/ "jsonwebtoken":
 /*!*******************************!*\
   !*** external "jsonwebtoken" ***!
@@ -932,6 +973,17 @@ module.exports = require("mongoose");
 
 /***/ }),
 
+/***/ "morgan":
+/*!*************************!*\
+  !*** external "morgan" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("morgan");
+
+/***/ }),
+
 /***/ "redis":
 /*!************************!*\
   !*** external "redis" ***!
@@ -951,6 +1003,28 @@ module.exports = require("redis");
 /***/ (function(module, exports) {
 
 module.exports = require("request");
+
+/***/ }),
+
+/***/ "winston":
+/*!**************************!*\
+  !*** external "winston" ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("winston");
+
+/***/ }),
+
+/***/ "winston-loggly-bulk":
+/*!**************************************!*\
+  !*** external "winston-loggly-bulk" ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("winston-loggly-bulk");
 
 /***/ })
 
