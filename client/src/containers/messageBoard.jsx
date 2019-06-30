@@ -9,9 +9,7 @@ import { withRouter } from "react-router";
 import SnackBar from "../components/snackbar";
 
 import Context from "../store/context";
-const headers = {
-  authorization: localStorage.getItem("jwt")
-};
+
 const useStyles = makeStyles(theme => ({
   textContainer: {
     display: "flex"
@@ -78,7 +76,6 @@ const TweetPost = props => {
         }
       )
       .then(res => {
-        console.log(res);
         setRows({ rows: res.data.result, count: res.data.count });
         setLoading(false);
       })

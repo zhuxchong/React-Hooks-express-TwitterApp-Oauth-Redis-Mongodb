@@ -32,8 +32,8 @@ const reuireOptions = {
 const tableTitle = {
   TweetGetByUser: ["User", "Screen Name", "Tweet"],
   TweetPost: "Post Tweet",
-  TweetLikeAndSearch: ["User", "Screen Name", "Tweet", "Favorited"],
-  FavoriteList: ["User", "Screen Name", "Tweet", "Favorited"]
+  TweetLikeAndSearch: ["TweetID", "User", "Tweet", "Screen Name", "Favorited"],
+  FavoriteList: ["TweetID", "Tweet", "User", "Screen Name", "Favorited"]
 };
 const useStyles = makeStyles(theme => ({
   root: {

@@ -19,9 +19,6 @@ const TweetPost = props => {
   };
   const postTweet = () => {
     setSending(true);
-    const headers = {
-      authorization: localStorage.getItem("jwt")
-    };
 
     axios
       .post(

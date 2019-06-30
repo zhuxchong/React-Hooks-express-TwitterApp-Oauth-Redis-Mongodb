@@ -119,7 +119,6 @@ export default function CustomPaginationActionsTable(props) {
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   function handleChangePage(event, newPage) {
-    console.log(newPage);
     if (props.message) {
       props.changePage(newPage);
     }
@@ -162,7 +161,9 @@ export default function CustomPaginationActionsTable(props) {
                       />
                     );
                   } else {
-                    return <TableCell key={index}>{row[i]}</TableCell>;
+                    if (i !== "favorited") {
+                      return <TableCell key={index}>{row[i]}</TableCell>;
+                    }
                   }
                 })}
 

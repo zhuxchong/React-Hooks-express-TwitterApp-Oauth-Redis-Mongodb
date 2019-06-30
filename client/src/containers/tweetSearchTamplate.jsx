@@ -36,9 +36,7 @@ const urlDict = {
   TweetLikeAndSearch: "tweet/tweet_by_keyword",
   FavoriteList: "tweet/tweet_favorite_list"
 };
-const headers = {
-  authorization: localStorage.getItem("jwt")
-};
+
 const TweetSearchTamplate = props => {
   const classes = useStyles();
   const inputEl = React.useRef(null);
@@ -59,7 +57,7 @@ const TweetSearchTamplate = props => {
           }
         })
         .then(res => {
-          console.log(res);
+          // console.log(res);
         })
         .catch(e => {
           if (e.message === "Request failed with status code 401") {
@@ -81,8 +79,8 @@ const TweetSearchTamplate = props => {
           }
         )
         .then(res => {
-          setRes(res.data);
           console.log(res);
+          setRes(res.data);
         })
         .catch(e => {
           if (e.message === "Request failed with status code 401") {
@@ -91,7 +89,6 @@ const TweetSearchTamplate = props => {
             });
           }
           console.error(e);
-          //setRes([]);
         });
     }
   };
@@ -148,7 +145,7 @@ const TweetSearchTamplate = props => {
     <React.Fragment>
       <div className={classes.textContainer}>
         {props.search && (
-          <>
+          <React.Fragment>
             <TextField
               id="standard-with-placeholder"
               label="Input"
@@ -166,7 +163,7 @@ const TweetSearchTamplate = props => {
             >
               Search
             </Button>
-          </>
+          </React.Fragment>
         )}
       </div>
       <div style={{ padding: "10px 30px" }}>
