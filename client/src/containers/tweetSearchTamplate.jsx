@@ -102,7 +102,7 @@ const TweetSearchTamplate = props => {
     axios
       .post(
         url,
-        { id: id, nowStatus: bool },
+        { id: id, content: bool },
         {
           headers: {
             authorization: localStorage.getItem("jwt")
