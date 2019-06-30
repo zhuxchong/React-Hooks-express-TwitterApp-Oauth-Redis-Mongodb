@@ -12,7 +12,7 @@ router.get("/login/request_token", (req, res) => {
     {
       url: "https://api.twitter.com/oauth/request_token",
       oauth: {
-        oauth_callback: "http://localhost:3000/loading",
+        oauth_callback: `${req.query.url}loading`,
         consumer_key: process.env.CONSUMER_KEY,
         consumer_secret: process.env.CONSUMER_SECRET
       }

@@ -262,8 +262,6 @@ var authTool = __webpack_require__(/*! ./utils/AuthTool */ "./utils/AuthTool.js"
 
 var morgan = __webpack_require__(/*! morgan */ "morgan");
 
-var createError = __webpack_require__(/*! http-errors */ "http-errors");
-
 app.use(express.json());
 
 var cors = __webpack_require__(/*! cors */ "cors");
@@ -279,10 +277,7 @@ if ("development".trim() === "development") {
 app.use(cors());
 app.use("/auth", radisStore, __webpack_require__(/*! ./routes/login */ "./routes/login.js"));
 app.use("/tweet", authTool, __webpack_require__(/*! ./routes/tweet */ "./routes/tweet.js"));
-app.use("/message", authTool, __webpack_require__(/*! ./routes/messageBoard */ "./routes/messageBoard.js"));
-app.use(function (next) {
-  next(createError(404));
-}); // error handler
+app.use("/message", authTool, __webpack_require__(/*! ./routes/messageBoard */ "./routes/messageBoard.js")); // error handler
 
 app.use(function (err, req, res) {
   // set locals, only providing error in development
@@ -531,6 +526,14 @@ module.exports = router;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -557,25 +560,13 @@ function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(req, res) {
-    var result;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            result = req.access;
-            result.then(function (temp) {
-              getAllUserTweet(JSON.parse(temp), req.body.serachInput).then(function (temp) {
-                res.send(temp);
-              })["catch"](function (e) {
-                res.sendStatus(e);
-                res.send("error1   +++++" + e);
-              });
-            })["catch"](function (e) {
-              res.sendStatus(e);
-              res.send("error1   +++++" + e);
-            });
+            promiseTamplate(getAllUserTweet, req, res, [req.body.content]);
 
-          case 2:
+          case 1:
           case "end":
             return _context.stop();
         }
@@ -593,26 +584,13 @@ function () {
   var _ref2 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee2(req, res) {
-    var result;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            result = req.access;
-            result.then(function (temp) {
-              postTweet(JSON.parse(temp), req.body.content).then(function () {
-                res.status(200);
-                res.send("OK");
-              })["catch"](function (e) {
-                res.sendStatus(e);
-                res.send("error1   +++++" + e);
-              });
-            })["catch"](function (e) {
-              res.sendStatus(e);
-              res.send("error1   +++++" + e);
-            });
+            promiseTamplate(postTweet, req, res, [req.body.content]);
 
-          case 2:
+          case 1:
           case "end":
             return _context2.stop();
         }
@@ -630,28 +608,13 @@ function () {
   var _ref3 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee3(req, res) {
-    var result;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            console.log("/tweet_by_keyword");
-            result = req.access;
-            result.then(function (temp) {
-              getTweetByKeyword(JSON.parse(temp), req.body.serachInput).then(function (temp) {
-                res.send(temp);
-              })["catch"](function (e) {
-                console.log("e cathch inside");
-                res.sendStatus(e);
-                res.send("error1   +++++" + e);
-              });
-            })["catch"](function (e) {
-              console.log("e cathch outside");
-              res.sendStatus(e);
-              res.send("error1   +++++" + e);
-            });
+            promiseTamplate(getTweetByKeyword, req, res, [req.body.content]);
 
-          case 3:
+          case 1:
           case "end":
             return _context3.stop();
         }
@@ -669,28 +632,13 @@ function () {
   var _ref4 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee4(req, res) {
-    var result;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            result = req.access;
-            console.log(req.body.id);
-            result.then(function (temp) {
-              changeFavorite(JSON.parse(temp), req.body.id, req.body.nowStatus).then(function (temp) {
-                res.send(temp);
-              })["catch"](function (e) {
-                console.log("e cathch inside");
-                res.sendStatus(e);
-                res.send("error1   +++++" + e);
-              });
-            })["catch"](function (e) {
-              console.log("e cathch outside");
-              res.sendStatus(e);
-              res.send("error1   +++++" + e);
-            });
+            promiseTamplate(changeFavorite, req, res, [req.body.id, req.body.content]);
 
-          case 3:
+          case 1:
           case "end":
             return _context4.stop();
         }
@@ -708,28 +656,14 @@ function () {
   var _ref5 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee5(req, res) {
-    var result;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             console.log("/tweet_favorite");
-            result = req.access;
-            result.then(function (temp) {
-              getFavoriteList(JSON.parse(temp)).then(function (temp) {
-                res.send(temp);
-              })["catch"](function (e) {
-                console.log("e cathch inside");
-                res.sendStatus(e);
-                res.send("error1   +++++" + e);
-              });
-            })["catch"](function (e) {
-              console.log("e cathch outside");
-              res.sendStatus(e);
-              res.send("error1   +++++" + e);
-            });
+            promiseTamplate(getFavoriteList, req, res, []);
 
-          case 3:
+          case 2:
           case "end":
             return _context5.stop();
         }
@@ -741,6 +675,24 @@ function () {
     return _ref5.apply(this, arguments);
   };
 }());
+
+function promiseTamplate(fun, req, res, arg) {
+  var result = req.access;
+  result.then(function (temp) {
+    fun.apply(void 0, [JSON.parse(temp)].concat(_toConsumableArray(arg))).then(function (temp) {
+      res.send(temp);
+    })["catch"](function (e) {
+      console.log("e cathch inside");
+      res.sendStatus(e);
+      res.send("error1   +++++" + e);
+    });
+  })["catch"](function (e) {
+    console.log("e cathch outside");
+    res.sendStatus(e);
+    res.send("error1   +++++" + e);
+  });
+}
+
 module.exports = router;
 
 /***/ }),
@@ -951,17 +903,6 @@ module.exports = require("express");
 /***/ (function(module, exports) {
 
 module.exports = require("express-winston");
-
-/***/ }),
-
-/***/ "http-errors":
-/*!******************************!*\
-  !*** external "http-errors" ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("http-errors");
 
 /***/ }),
 

@@ -10,11 +10,13 @@ class Login extends Component {
   }
 
   requestToken = () => {
-    axios.get("auth/login/request_token").then(r => {
-      window.location.href = `https://api.twitter.com/oauth/authorize?oauth_token=${
-        r.data.oauth_token
-      }`;
-    });
+    axios
+      .get(`auth/login/request_token?url=${window.location.href}`)
+      .then(r => {
+        window.location.href = `https://api.twitter.com/oauth/authorize?oauth_token=${
+          r.data.oauth_token
+        }`;
+      });
   };
   render() {
     return (
@@ -24,6 +26,14 @@ class Login extends Component {
       >
         Twitter Login
       </button>
+      // <button
+      //   onClick={() => {
+      //     console.log(window.location.href);
+      //   }}
+      //   style={{ margin: "25px 25%", width: "50%", height: 50 }}
+      // >
+      //   `12`
+      // </button>
     );
   }
 }
